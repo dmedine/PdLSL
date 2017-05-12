@@ -1,0 +1,4 @@
+#N canvas 2226 352 450 300 10;
+#X declare -path C:/Users/David.Medine/Devel/PdLSL;
+#X obj 131 61 declare -path C:/Users/David.Medine/Devel/PdLSL;
+
