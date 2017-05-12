@@ -59,7 +59,7 @@ int lsl_inlet_parse_creation_args(t_lsl_inlet *x, int argc, t_atom *argv){
   char stream_type[100];
   char stream_format[100];
   int srate = 0;                            // trigger channel
-  lsl_channel_format_t channel_format = -1;
+  lsl_channel_format_t channel_format = 666;
   char source_id[100];
   lsl_streaminfo info;
 
@@ -127,11 +127,11 @@ int lsl_inlet_parse_creation_args(t_lsl_inlet *x, int argc, t_atom *argv){
   }
 
   // we have enough input to form the inlet
-  if(!strcmp(stream_name,"\n") && channel_format != -1){
+  if(!strcmp(stream_name,"\n") && channel_format != 666){
     // setup the memory on pd's side
     lsl_inlet_data_allocate(x, channel_format);
     info = lsl_create_streaminfo(stream_name, stream_type, 1, 0, channel_format, source_id);
-    x->lsl_inlet = lsl_create_inlet(info, x->max_buflen, 0, 1);
+    //x->lsl_inlet = lsl_create_inlet(info, x->max_buflen, 0, 1);
     res = 1;
   }
 

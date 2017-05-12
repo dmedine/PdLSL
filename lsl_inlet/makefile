@@ -7,7 +7,7 @@ CSYM = lsl_inlet
 
 .PHONY: 
 
-current: pd_nt
+current: pd_linux
 
 
 # ----------------------- Microsoft Visual C -----------------------
@@ -31,7 +31,7 @@ PDNTLIB = -NODEFAULTLIB:libcmt -NODEFAULTLIB:oldnames -NODEFAULTLIB:kernel32 \
         -NODEFAULTLIB:uuid \
 	$(PDNTLDIR)\\libcmt.lib $(PDNTLDIR)\\oldnames.lib \
         $(VSTK)\\lib\\kernel32.lib $(VSTK)\\lib\\uuid.lib \
-	$(PDPATH)\\bin\\pd.lib .\\liblsl32.lib
+	$(PDPATH)\\bin\\pd.lib ..\\liblsl32.lib
 
 .c.dll:
 	$(MSCC) $(PDNTCFLAGS) $(PDNTINCLUDE) -c $*.c
@@ -42,15 +42,23 @@ PDNTLIB = -NODEFAULTLIB:libcmt -NODEFAULTLIB:oldnames -NODEFAULTLIB:kernel32 \
 pd_linux: $(NAME).pd_linux
 
 .SUFFIXES: .pd_linux
-
+PDPATH=/home/dmedine/Software/pd-0.46-7
+LSLPATH=/home/dmedine/labstreaminglayer/LSL/liblsl
 LINUXCFLAGS = -DPD -O2 -funroll-loops -fomit-frame-pointer -fPIC \
     -Wall -W -Wshadow -Wstrict-prototypes \
     -Wno-unused -Wno-unused-parameter -Wno-parentheses -Wno-switch \
-    $(CFLAGS) $(MORECFLAGS)
+    $(CFLAGS) $(MORECFLAGS) -shared -Wl,rpath=./
 
-LINUXINCLUDE =  -I../../src
-
+LINUXINCLUDE =  -I$(PDPATH)/src -I./
+LIBPATH = -L$(LSLPATH)/bin
+LIBS = -lm -ldl -llsl64
 .c.pd_linux:
-	$(CC) $(LINUXCFLAGS) $(LINUXINCLUDE) -o $*.o -c $*.c
-	$(CC) -shared -o $*.pd_linux $*.o -lc -lm
+	$(CC) $(LINUXCFLAGS) $(LINUXINCLUDE) $(LIBPATH) $(LIBS) -o $*.o -c $*.c
+	ld -export_dynamic -shared -o $*.pd_linux $*.o \
+	$(LIBPATH) -lc $(LIBS)
+	strip --strip-unneeded $*.pd_linux
 	rm -f $*.o
+
+	#$(CC) $(LINUXCFLAGS) $(LINUXINCLUDE) $(LIBPATH) -llsl64 -o $*.o -c $*.c
+	#$(CC) -shared -o $*.pd_linux $*.o -lc -lm
+	#rm -f $*.o
