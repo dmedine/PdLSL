@@ -229,7 +229,19 @@ void lsl_inlet_connect_by_idx(t_lsl_inlet *x, t_floatarg f){
     	 lsl_get_name(x->lsl_info_list[x->which]),
 	 lsl_get_source_id(x->lsl_info_list[x->which]));
     //if(x->lsl_inlet_obj!=NULL)lsl_destroy_inlet(x->lsl_inlet_obj);
+    
+    if(lsl_get_channel_format(x->lsl_info_list[x->which])!=cft_string)
+      if(lsl_get_channel_format(x->lsl_info_list[x->which])!=cft_float32){
+	  pd_error(x, "requested stream has invalid channel format, only strings and floats allowed");
+	  return;
+	}
+    if(lsl_get_nominal_srate(x->lsl_info_list[x->which])!=0){
+      	  pd_error(x, "requested stream has invalid nominal sampling rate, this must be 0");
+	  return;
+    }
+    
     x->lsl_inlet_obj = lsl_create_inlet(x->lsl_info_list[x->which], 300, LSL_NO_PREFERENCE,1);
+    
     post("...connected, launcing listener thread");
     ec = pthread_create(&x->tid, NULL, lsl_listen_thread, (void *)x);
     if(ec!=0){
