@@ -82,11 +82,6 @@ void *lsl_listen_thread(void *in){
 
   type = lsl_get_channel_format(x->lsl_info_list[x->which]);
 
-  #ifndef _WIN32
-  struct timespec tim;
-  time.tv_sec = 0;
-  time.tv_nsec = 1000000L;
-  #endif
 
   x->stop_ = 0;
   while(x->stop_==0){
@@ -103,12 +98,7 @@ void *lsl_listen_thread(void *in){
     else
       outlet_float(x->float_outlet, x->f_marker);
       outlet_float(x->ts_outlet, (float)x->ts);
-    
-  #ifdef _WIN32
-    Sleep(1);
-  #else
-    nanosleep(&tim, NULL);
-  #endif
+
   }
   
   return NULL;
@@ -418,6 +408,8 @@ void lsl_inlet_setup(void){
   /* 		(t_method)lsl_inlet_bang); */
 
 }
+
+
 
 
 

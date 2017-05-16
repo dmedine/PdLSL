@@ -27,7 +27,7 @@ VC = "C:\\Program Files (x86)\\Microsoft Visual Studio 9.0\\VC"
 VSTK = "C:\\Program Files\\Microsoft SDKs\\Windows\\v6.0A"
 PDPATH = "C:\\Users\\David.Medine\\Pd"
 
-PDNTINCLUDE = -I. -I$(PDPATH)\\src -I$(VC)\\include -I$(VSTK)\\include -I$(PTHREADDIR)\\include
+PDNTINCLUDE = -I. -I$(PDPATH)\\src -I$(VC)\\include -I$(VSTK)\\include -I$(PTHREADDIR)\\include -I$(LSLDIR)\\include
 
 PDNTLDIR = $(VC)\\lib
 PDNTLIB = -NODEFAULTLIB:libcmt -NODEFAULTLIB:oldnames -NODEFAULTLIB:kernel32 \
