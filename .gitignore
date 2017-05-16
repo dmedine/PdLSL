@@ -1,2 +1,4 @@
 /bob--windows-master
 *~
+*.obj
+*.exp
