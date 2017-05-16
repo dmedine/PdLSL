@@ -7,7 +7,7 @@ CSYM = lsl_inlet
 
 .PHONY: 
 
-current: pd_linux
+current: pd_nt
 
 
 # ----------------------- Microsoft Visual C -----------------------
@@ -18,20 +18,23 @@ pd_nt: $(NAME).dll
 
 .SUFFIXES: .dll
 
+PTHREADDIR="C:\\pthread-win\\Pre-built.2"
+
 PDNTCFLAGS = -W3 -WX -DNT -DPD -nologo -D_CRT_SECURE_NO_WARNINGS \
     -D_CRT_NONSTDC_NO_DEPRECATE
 VC = "C:\\Program Files (x86)\\Microsoft Visual Studio 9.0\\VC"
 VSTK = "C:\\Program Files\\Microsoft SDKs\\Windows\\v6.0A"
 PDPATH = "C:\\Users\\David.Medine\\Pd"
 
-PDNTINCLUDE = -I. -I$(PDPATH)\\src -I$(VC)\\include -I$(VSTK)\\include
+PDNTINCLUDE = -I. -I$(PDPATH)\\src -I$(VC)\\include -I$(VSTK)\\include -I$(PTHREADDIR)\\include
 
 PDNTLDIR = $(VC)\\lib
 PDNTLIB = -NODEFAULTLIB:libcmt -NODEFAULTLIB:oldnames -NODEFAULTLIB:kernel32 \
         -NODEFAULTLIB:uuid \
 	$(PDNTLDIR)\\libcmt.lib $(PDNTLDIR)\\oldnames.lib \
         $(VSTK)\\lib\\kernel32.lib $(VSTK)\\lib\\uuid.lib \
-	$(PDPATH)\\bin\\pd.lib ..\\liblsl32.lib
+	$(PDPATH)\\bin\\pd.lib ..\\liblsl32.lib \
+	$(PTHREADDIR)\\lib\\x86\\pthreadVC2.lib
 
 .c.dll:
 	$(MSCC) $(PDNTCFLAGS) $(PDNTINCLUDE) -c $*.c
@@ -42,7 +45,7 @@ PDNTLIB = -NODEFAULTLIB:libcmt -NODEFAULTLIB:oldnames -NODEFAULTLIB:kernel32 \
 pd_linux: $(NAME).pd_linux
 
 .SUFFIXES: .pd_linux
-PDPATH=/home/dmedine/Software/pd-0.46-7
+#PDPATH=/home/dmedine/Software/pd-0.46-7
 LSLPATH=/home/dmedine/labstreaminglayer/LSL/liblsl
 LINUXCFLAGS = -DPD -O2 -funroll-loops -fomit-frame-pointer -fPIC \
     -Wall -W -Wshadow -Wstrict-prototypes \
