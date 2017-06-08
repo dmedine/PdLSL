@@ -60,9 +60,6 @@ inlet's rate is 1/10 of the SR in Pd \, every 10 samples will be identical.
 If the sampling rate is higher than the audio rate \, all kinds of
 unwanted artifacts will be present.;
 #X obj 572 407 loadbang;
-#X text 638 640 Known bugs: 1 When re-creating the extern with the
--nout flag \, the extern goes into a mysterious infinite loop for.
-2 Sometimes \, it just crashes for like no reason at all.;
 #X text 639 710 Unkowon bugs: Gazillions of 'em \, I'm sure.;
 #X text 20 438 There are python scripts that send a random 'EEG' signal
 (one for strings and one for floats). In order for these to run \,
@@ -77,20 +74,21 @@ your own risk!;
 #X text 594 509 <-smoothing filter \, each incoming sample is shelved.
 Basically \, this is poor-man's interpolation.;
 #X obj 503 653 hip~ 40;
-#X obj 411 322 lsl_inlet~ -buflen 10 -lag 1;
+#X obj 411 322 lsl_inlet~ -nout 8 -buflen 10 -lag 1;
+#X text 638 640 Known bugs: Sometimes \, it just crashes for like no
+reason at all.;
 #X text 679 329 <-as of now there are three creation arguments. -nout
 is the number of outlets the extern should have. So far only 1 \, 2
-\, 4 \, 8 \, 16 \, and 32 are supported. But \, for some reason \,
-using this flag crashes Pd (see bug note below). I have no idea why.
--buflen is the length (in dsp blocks) of the ring buffer that holds
-the samples as they come in. 640 is probably overkill. -lag is the
-length (also in blocks) to wait before outputing the incoming signal.
-If you put '0' here \, the lag is 1 sample. Shown here are the default
-values.;
-#X connect 0 0 44 0;
-#X connect 1 0 44 0;
-#X connect 5 0 44 0;
-#X connect 20 0 44 0;
+\, 4 \, 8 \, 16 \, and 32 are supported. I have no idea why. -buflen
+is the length (in dsp blocks) of the ring buffer that holds the samples
+as they come in. 640 is probably overkill. -lag is the length (also
+in blocks) to wait before outputing the incoming signal. If you put
+'0' here \, the lag is 1 sample. Shown here are the default values.
+;
+#X connect 0 0 43 0;
+#X connect 1 0 43 0;
+#X connect 5 0 43 0;
+#X connect 20 0 43 0;
 #X connect 21 0 22 0;
 #X connect 23 0 21 0;
 #X connect 24 0 31 0;
@@ -99,12 +97,12 @@ values.;
 #X connect 28 0 29 0;
 #X connect 29 0 30 0;
 #X connect 30 0 31 1;
-#X connect 31 0 43 0;
-#X connect 32 0 44 0;
-#X connect 33 0 44 0;
-#X connect 34 0 44 0;
-#X connect 36 0 41 0;
-#X connect 41 0 25 0;
-#X connect 43 0 26 0;
-#X connect 44 0 21 0;
-#X connect 44 0 24 0;
+#X connect 31 0 42 0;
+#X connect 32 0 43 0;
+#X connect 33 0 43 0;
+#X connect 34 0 43 0;
+#X connect 36 0 40 0;
+#X connect 40 0 25 0;
+#X connect 42 0 26 0;
+#X connect 43 0 21 0;
+#X connect 43 0 24 0;

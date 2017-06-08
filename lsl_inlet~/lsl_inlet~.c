@@ -583,7 +583,7 @@ static void flush_lsl_buffers(t_lsl_inlet_tilde *x){
   
 }
 
-static void free_lsl_bufferss(t_lsl_inlet_tilde *x){
+static void free_lsl_buffers(t_lsl_inlet_tilde *x){
 
   int i;
   post("in the free method");
@@ -653,16 +653,19 @@ static void *lsl_inlet_tilde_new(t_symbol *s, int argc, t_atom *argv){
     }
     
     else if(!strcmp(firstarg->s_name, "-nout")){
-      post("why do I fail here?");
       lcl_nout = (atom_getfloatarg(1, argc, argv));
-      if(lcl_nout > 20)post("bitch!"); 	  
-      else{
+      if((lcl_nout==1) || (lcl_nout==2) || (lcl_nout==4) ||
+	 (lcl_nout!=8) || (lcl_nout!=16) || (lcl_nout!=32)){
 	 
-  	    x->nout = atom_getfloatarg(1, argc, argv);
-  	    argc-=2;
-  	    argv+=2;
-  	}
+  	    x->nout = lcl_nout;
+
       }
+      else
+	post("Invalid outlet selection (must be 1, 2, 4, 8, 16, or 32): reverting to 8");
+    
+      argc-=2;
+      argv+=2;
+    }
     else {
       pd_error(x, "%s: unkown flag or argument missing",
   	       firstarg->s_name);
