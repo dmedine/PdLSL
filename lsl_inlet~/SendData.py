@@ -11,7 +11,7 @@ from pylsl import StreamInfo, StreamOutlet
 # last value would be the serial number of the device or some other more or
 # less locally unique identifier for the stream as far as available (you
 # could also omit it but interrupted connections wouldn't auto-recover)
-info = StreamInfo('BioSemi12341234', 'EEG', 8, 100, 'float32', 'myuid34234')
+info = StreamInfo('BioSemi', 'EEG', 8, 100, 'float32', 'myuid34234')
 
 # next make an outlet
 outlet = StreamOutlet(info)

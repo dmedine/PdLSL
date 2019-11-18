@@ -18,8 +18,8 @@ pd_nt: $(NAME).dll
 
 .SUFFIXES: .dll
 
-PTHREADDIR="C:\\pthread-win\\Pre-built.2"
-LSLDIR="C:\\Users\David.Medine\\labstreaminglayer\\LSL\\liblsl"
+#PTHREADDIR="C:\\pthread-win\\Pre-built.2"
+LSLDIR="C:\\lsl"
 
 PDNTCFLAGS = -W3 -WX -DNT -DPD -nologo -D_CRT_SECURE_NO_WARNINGS \
     -D_CRT_NONSTDC_NO_DEPRECATE
@@ -34,8 +34,8 @@ PDNTLIB = -NODEFAULTLIB:libcmt -NODEFAULTLIB:oldnames -NODEFAULTLIB:kernel32 \
         -NODEFAULTLIB:uuid \
 	$(PDNTLDIR)\\libcmt.lib $(PDNTLDIR)\\oldnames.lib \
         $(VSTK)\\lib\\kernel32.lib $(VSTK)\\lib\\uuid.lib \
-	$(PDPATH)\\bin\\pd.lib $(LSLDIR)\\bin\\liblsl32.lib \
-	$(PTHREADDIR)\\lib\\x86\\pthreadVC2.lib
+	$(PDPATH)\\bin\\pd.lib $(LSLDIR)\\lib\\x86\\liblsl32.lib \
+	#$(PTHREADDIR)\\lib\\x86\\pthreadVC2.lib
 
 .c.dll:
 	$(MSCC) $(PDNTCFLAGS) $(PDNTINCLUDE) -c $*.c
